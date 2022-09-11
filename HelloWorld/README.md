@@ -2,7 +2,7 @@
 
 Hi everyone! I'm JC. I'm a professional .NET backend developer. I'm also a hobbyist video game dev who primarily focuses on Unity, but I'm looking to pick up Unreal Engine.
 I really enjoy so many aspects of software development. I've been playing around with breadboard circuits to teach myself logic gates, I've been poking around with
-deep reinforcement AI, and I taught myself Python a couple years ago so that I could teach the language as an instructor for Delaware STEAM Academy, to name a few different things.
+deep learning AI, and I taught myself Python a couple years ago so that I could teach the language as an instructor for Delaware STEAM Academy, just to name a few different things.
 
 I'm not supposed to say this, but I am doing this project/repo for a college class. See, I've done a lot in my life that I'm proud of. I have been supremely blessed
 with a wonderful wife, a good job, and decent health. But something I've always regretted was not finishing that college degree. More importantly, I desire the 
@@ -18,11 +18,10 @@ My first project assignment? Hello World.
 This assignment is just to make sure that we know how to use Git. I'm also required to upload a video that goes over running the code. Today, it's just going to be a simple video,
 but I really hope to show everyone some cool stuff in the coming weeks.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/iPtuQexd5qQ)
 
 # Development Environment
 
-{Describe the tools that you used to develop the software}
 I used Visual Studio Community Edition, 2022. I used this instead of VS Code because it comes with a built-in compiler. I'm considering trying out JetBrains Rider, but we'll see.
 
 Visual Studio comes with a pre-built C++ Command Line project with Hello World in main. I added a line for input so the .exe would stay open. It doesn't care what the input is as long as it's
@@ -32,6 +31,5 @@ The easiest way to build the code is with the Visual Studio compiler. But if you
 
 # Useful Websites
 
-{Make a list of websites that you found helpful in this project}
 * [Download Microsoft Visual Studio](https://visualstudio.microsoft.com/)
 * [Desktop Recording Software](https://obsproject.com/)
