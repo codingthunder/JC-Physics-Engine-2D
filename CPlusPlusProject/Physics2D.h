@@ -14,6 +14,8 @@ struct Vector2 {
 	float x;
 	float y;
 
+	//I should just make a length field that is updated whenever x and y are updated.
+
 	float magnitude();
 	Vector2 normalized();
 
@@ -77,6 +79,7 @@ private:
 	//My initial implementation for this will be super inefficient. I intend to optimize it once I've got the basics working.
 	void calculateCollisions();
 	static void collide(Rigidbody2D* rb1, Rigidbody2D* rb2);
+	static Vector2 calculateMomentumTransfer(Rigidbody2D* primaryRb, Rigidbody2D* otherRb);
 
 	static Vector2 resistanceToMovement(Vector2 velocity, float resistanceModifier);
 	static float baseResistance;

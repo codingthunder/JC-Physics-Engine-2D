@@ -117,6 +117,7 @@ float Rigidbody2D::getResistanceModifier() {
 void Rigidbody2D::applyMomentum(Vector2 momentum) {
 	velocity = velocity + (momentum / mass);
 }
+//newMomentum = velocity * mass + passedMomentum;
 
 void Rigidbody2D::applyForce(Vector2 force) {
 	acceleration = /*acceleration + */(force / mass);
@@ -166,6 +167,7 @@ void Physics2D::updatePhysics() {
 	calculateCollisions();
 }
 
+//I should really directly edit velocity, not momentum.
 void Physics2D::calculatePositions() {
 	for (int i = 0; i < entities.size(); ++i) {
 		
@@ -202,14 +204,52 @@ void Physics2D::calculateCollisions() {
 //TODO: Need to account for the angle at which the balls hit one another. For that, I think I need to account for spinning/rolling. So, we'll see if it happens.
 void Physics2D::collide(Rigidbody2D* rb1, Rigidbody2D* rb2) {
 
-	Vector2 velocOfRb1RelativeToRb2 = rb1->getVelocity() - rb2->getVelocity();
-	Vector2 velocOfRb2RelativetoRb1 = rb2->getVelocity() - rb1->getVelocity();
+	Vector2 changesToRb2 = calculateMomentumTransfer(rb1, rb2);
+	Vector2 changesToRb1 = calculateMomentumTransfer(rb2, rb1);
 
-	Vector2 momentum1 = velocOfRb1RelativeToRb2 * rb1->getMass();
-	Vector2 momentum2 = velocOfRb2RelativetoRb1 * rb2->getMass();
+	rb1->applyMomentum(changesToRb1);
+	rb2->applyMomentum(changesToRb2);
 
-	rb1->applyMomentum(momentum2);
-	rb2->applyMomentum(momentum1);
+	//CircleCollider* col1 = rb1->getCollider();
+	//CircleCollider* col2 = rb2->getCollider();
+
+	////1 = a, 2 = b
+	//Vector2 velocOfRb1RelativeToRb2 = rb1->getVelocity() - rb2->getVelocity();
+	//Vector2 velocOfRb2RelativetoRb1 = rb2->getVelocity() - rb1->getVelocity();
+
+	////Already has the Point of Contact relative to the circle, not relative to the world.
+	//Vector2 pointOfContactRb2 = (col1->getPosition() - col2->getPosition()).normalized() * col2->getRadius();
+	//Vector2 pointOfContactRb1 = (col2->getPosition() - col1->getPosition()).normalized() * col1->getRadius();
+
+	//Vector2 velocRb1PlusPointOfContactRb1 = (velocOfRb1RelativeToRb2.normalized() + pointOfContactRb1.normalized()).normalized();
+
+	//float transferCoefficientRb1 = pow(velocRb1PlusPointOfContactRb1.x, 2);
+
+	//Vector2 addedMomentumFrom1 = pointOfContactRb1.normalized() * Vector2::distance(Vector2(0, 0), velocOfRb1RelativeToRb2) * rb1->getMass() * transferCoefficientRb1;
+
+	//Vector2 momentum1 = velocOfRb1RelativeToRb2 * rb1->getMass();
+	//Vector2 momentum2 = velocOfRb2RelativetoRb1 * rb2->getMass();
+
+	//rb1->applyMomentum(momentum2);
+	//rb2->applyMomentum(momentum1);
+
+}
+
+//TODO: I got something wrong with my math, though I don't quite know what. Sometimes objects just zoom off of one another. Will need to test and debug.
+Vector2 Physics2D::calculateMomentumTransfer(Rigidbody2D* primaryRb, Rigidbody2D* otherRb) {
+	CircleCollider* primaryCol = primaryRb->getCollider();
+	CircleCollider* otherCol = otherRb->getCollider();
+
+	Vector2 relativeVeloc = otherRb->getVelocity() - primaryRb->getVelocity();
+	Vector2 pointOfContact = (otherCol->getPosition() - primaryCol->getPosition()).normalized() * primaryCol->getRadius();
+
+	Vector2 velocPlusPointOfContactNormalized = (relativeVeloc.normalized() + pointOfContact.normalized()).normalized();
+
+	float transferCoefficient = pow(velocPlusPointOfContactNormalized.x, 2);
+
+	Vector2 addedMomentum = pointOfContact.normalized() * Vector2::distance(Vector2(0, 0), relativeVeloc) * primaryRb->getMass() * transferCoefficient;
+
+	return addedMomentum;
 
 }
 
