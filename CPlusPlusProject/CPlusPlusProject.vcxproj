@@ -138,6 +138,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Physics2D.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="BinaryTree.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Physics2D.h" />
+    <ClInclude Include="QuadTree.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="BinaryTree.h" />

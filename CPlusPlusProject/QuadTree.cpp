@@ -1,4 +1,4 @@
-#include "QuadTree.h"
-void QuadTree::addNode(QuadNode* newNode) {
-
-}
+//#include "QuadTree.h"
+////void QuadTree::addNode(QuadNode* newNode) {
+////
+////}
