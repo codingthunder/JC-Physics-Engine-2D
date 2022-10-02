@@ -41,18 +41,22 @@ For the purposes of rendering, I used the simplest library I could find: SFML. S
 
 
 
-[Software Demo Video](https://youtu.be/iPtuQexd5qQ)
+[Software Demo Video](https://youtu.be/cmqum40pnyY)
 
 # Development Environment
 
-I used Visual Studio Community Edition, 2022. I used this instead of VS Code because it comes with a built-in compiler. I'm considering trying out JetBrains Rider, but we'll see.
-
-Visual Studio comes with a pre-built C++ Command Line project with Hello World in main. I added a line for input so the .exe would stay open. It doesn't care what the input is as long as it's
-something.
-
-The easiest way to build the code is with the Visual Studio compiler. But if you want to use a compiler of your own, then go for it.
+I used Visual Studio Community Edition, 2022. I also used the external library SFML for graphics. Everything else is standard C++ Libraries, and it *should* run on most machines.
 
 # Useful Websites
 
 * [Download Microsoft Visual Studio](https://visualstudio.microsoft.com/)
 * [Desktop Recording Software](https://obsproject.com/)
+* [SFML Graphics Engine](https://www.sfml-dev.org/index.php)
+* [Desmos Graphing Calculator](https://www.desmos.com/calculator)
+* [CMath Library](https://cplusplus.com/reference/cmath/)
+* [Chrono Library](https://cplusplus.com/reference/chrono/)
+* [Introduction to Linear Algebra](https://math.mit.edu/~gs/linearalgebra/)
+* [Introduction to Trigonometry](https://www.skillsyouneed.com/num/trigonometry.html)
+* [Difference Between Force & Momentum](https://byjus.com/physics/difference-between-force-and-momentum/#:~:text=According%20to%20the%20second%20law,with%20the%20change%20in%20acceleration.)
+* [Me 2 Weeks Ago](https://media2.giphy.com/media/unQ3IJU2RG7DO/giphy.gif)
+* [Me Now](https://media4.giphy.com/media/KAvlM8rLYEXkLTMMM5/giphy.gif)
