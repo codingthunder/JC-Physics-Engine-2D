@@ -1,6 +1,7 @@
 #define _USE_MATH_DEFINES
 #include "Physics2D.h"
 #include <cmath>
+#include <iostream>
 #include "Time.h"
 
 #pragma region CircleCollider
@@ -80,6 +81,18 @@ Vector2 Vector2::operator*(float otherVal) {
 	return Vector2(x * otherVal, y * otherVal);
 }
 
+std::ostream& operator<<(std::ostream& os, const Vector2& vec) {
+	os << '(' << vec.x << ',' << vec.y << ')';
+	return os;
+}
+
+Vector2 Vector2::lerp(Vector2 pos1, Vector2 pos2, float proportion) {
+	Vector2 direction = (pos2 - pos1).normalized();
+	float distance = (pos2 - pos1).magnitude();
+
+	return pos1 + (direction * distance * proportion);
+}
+
 #pragma endregion
 
 #pragma region Rigidbody2D
@@ -117,6 +130,7 @@ float Rigidbody2D::getResistanceModifier() {
 void Rigidbody2D::applyMomentum(Vector2 momentum) {
 	velocity = velocity + (momentum / mass);
 }
+//newMomentum = velocity * mass + passedMomentum;
 
 void Rigidbody2D::applyForce(Vector2 force) {
 	acceleration = /*acceleration + */(force / mass);
@@ -166,6 +180,7 @@ void Physics2D::updatePhysics() {
 	calculateCollisions();
 }
 
+//I should really directly edit velocity, not momentum.
 void Physics2D::calculatePositions() {
 	for (int i = 0; i < entities.size(); ++i) {
 		
@@ -188,12 +203,23 @@ void Physics2D::calculatePositions() {
 }
 
 void Physics2D::calculateCollisions() {
+
+	CircleCollider* primCol;
+	CircleCollider* otherCol;
+
 	for (int i = 0; i < entities.size(); ++i) {
 		//May have to change this to j = 0, but we'll see if it works itself out.
 		//May be moot because I plan to optimize this anyway.
+
+		primCol = entities[i]->getCollider();
+
 		for (int j = i + 1; j < entities.size(); ++j) {
-			if (CircleCollider::isCollided(entities[i]->getCollider(), entities[j]->getCollider())) {
+
+			otherCol = entities[j]->getCollider();
+
+			if (CircleCollider::isCollided(primCol, otherCol)) {
 				collide(entities[i], entities[j]);
+				continue;
 			}
 		}
 	}
@@ -202,14 +228,30 @@ void Physics2D::calculateCollisions() {
 //TODO: Need to account for the angle at which the balls hit one another. For that, I think I need to account for spinning/rolling. So, we'll see if it happens.
 void Physics2D::collide(Rigidbody2D* rb1, Rigidbody2D* rb2) {
 
-	Vector2 velocOfRb1RelativeToRb2 = rb1->getVelocity() - rb2->getVelocity();
-	Vector2 velocOfRb2RelativetoRb1 = rb2->getVelocity() - rb1->getVelocity();
+	negateOverlap(rb1, rb2);
 
-	Vector2 momentum1 = velocOfRb1RelativeToRb2 * rb1->getMass();
-	Vector2 momentum2 = velocOfRb2RelativetoRb1 * rb2->getMass();
+	Vector2 changesToRb2 = calculateMomentumTransfer(rb1, rb2);
+	Vector2 changesToRb1 = calculateMomentumTransfer(rb2, rb1);
 
-	rb1->applyMomentum(momentum2);
-	rb2->applyMomentum(momentum1);
+	rb1->applyMomentum(changesToRb1);
+	rb2->applyMomentum(changesToRb2);
+
+}
+
+Vector2 Physics2D::calculateMomentumTransfer(Rigidbody2D* primaryRb, Rigidbody2D* otherRb) {
+	CircleCollider* primaryCol = primaryRb->getCollider();
+	CircleCollider* otherCol = otherRb->getCollider();
+
+	Vector2 relativeVeloc = otherRb->getVelocity() - primaryRb->getVelocity();
+	Vector2 pointOfContact = (otherCol->getPosition() - primaryCol->getPosition()).normalized() * primaryCol->getRadius();
+
+	Vector2 velocPlusPointOfContactNormalized = (relativeVeloc.normalized() + pointOfContact.normalized()).normalized();
+
+	float transferCoefficient = pow(velocPlusPointOfContactNormalized.x, 2);
+
+	Vector2 addedMomentum = pointOfContact.normalized() * Vector2::distance(Vector2(0, 0), relativeVeloc) * primaryRb->getMass() * transferCoefficient;
+
+	return addedMomentum;
 
 }
 
@@ -221,5 +263,50 @@ Vector2 Physics2D::resistanceToMovement(Vector2 velocity, float resistanceModifi
 	return direction * -powf(speed * resistanceModifier * baseResistance, 2);
 
 }
+
+void Physics2D::negateOverlap(Rigidbody2D* rb1, Rigidbody2D* rb2) {
+	//float colDistance = Vector2::distance(colA->getPosition(), colB->getPosition());
+	CircleCollider* colA = rb1->getCollider();
+	CircleCollider* colB = rb2->getCollider();
+
+	Vector2 posA = colA->getPosition();
+	Vector2 posB = colB->getPosition();
+
+	float radiusA = colA->getRadius();
+	float radiusB = colB->getRadius();
+	
+	Vector2 difference = posA - posB;
+	float combinedRadii = radiusA + radiusB;
+	float currentDistance = difference.magnitude();
+
+	if (currentDistance >= combinedRadii) {
+		return;
+	}
+
+	//TO-DO: Implement memoization on this. Anything which will be the same each time should me memoized so I don't have to
+	//recalculate it again. In fact, I could probably do this as a part of initialization. This will have to come after
+	//I implement a binary tree.
+	float massDiffCoefficient = std::atanf(rb1->getMass() - rb2->getMass()) / M_PI + 0.5;
+
+	Vector2 adjPosA = posA + difference.normalized()
+		* (radiusA - radiusA * currentDistance / combinedRadii);
+	
+	adjPosA = (adjPosA - posA) * (massDiffCoefficient);
+
+
+
+	difference = posB - posA;
+	massDiffCoefficient = 1 - massDiffCoefficient;
+	
+	Vector2 adjPosB = posB + difference.normalized()
+		* (radiusB - radiusB * currentDistance / combinedRadii);
+
+	adjPosB = (adjPosB - posB) * (massDiffCoefficient);
+
+	colA->move(adjPosA);
+	colB->move(adjPosB);
+}
+
+
 
 #pragma endregion

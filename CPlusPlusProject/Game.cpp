@@ -37,24 +37,39 @@ void Game::initialize() {
 	//	rbPtrs[i]->applyMomentum(Vector2(0, -1));
 
 	//}
+	int modifier = 1;
+	for (int i = 0; i < 50; ++i) {
+		modifier *= -1;
+		colliderPtrs.push_back(new CircleCollider(Vector2(i, i * modifier), 0.25));
+		colliderPtrs.push_back(new CircleCollider(Vector2(-i, i * modifier), 0.25));
+		rbPtrs.push_back(new Rigidbody2D(colliderPtrs[i]));
 
-	colliderPtrs.push_back(new CircleCollider(Vector2(-5, 0), 1));
-	colliderPtrs.push_back(new CircleCollider(Vector2(5, 0), 0.5));
+		rbPtrs[i]->setMass(1);
 
-	rbPtrs.push_back(new Rigidbody2D(colliderPtrs[0]));
-	rbPtrs.push_back(new Rigidbody2D(colliderPtrs[1]));
+		physics2D.trackEntity(rbPtrs[i]);
+		rendering->trackEntity(rbPtrs[i]->getCollider());
 
-	physics2D.trackEntity(rbPtrs[0]);
-	rendering->trackEntity(rbPtrs[0]->getCollider());
+	}
 
-	physics2D.trackEntity(rbPtrs[1]);
-	rendering->trackEntity(rbPtrs[1]->getCollider());
+	//colliderPtrs.push_back(new CircleCollider(Vector2(-5, 0), 1));
+	//colliderPtrs.push_back(new CircleCollider(Vector2(5, 0), 0.5));
+	//colliderPtrs.push_back(new CircleCollider(Vector2(0, 5), 2));
+
+	//rbPtrs.push_back(new Rigidbody2D(colliderPtrs[0]));
+	//rbPtrs.push_back(new Rigidbody2D(colliderPtrs[1]));
+
+
+	//physics2D.trackEntity(rbPtrs[0]);
+	//rendering->trackEntity(rbPtrs[0]->getCollider());
+
+	//physics2D.trackEntity(rbPtrs[1]);
+	//rendering->trackEntity(rbPtrs[1]->getCollider());
 
 	//rbPtrs[0]->applyMomentum(Vector2(1, 0));
 	//rbPtrs[1]->applyMomentum(Vector2(-1, 0));
 
-	rbPtrs[0]->setMass(2);
-	rbPtrs[1]->setMass(1);
+	//rbPtrs[0]->setMass(2);
+	//rbPtrs[1]->setMass(1);
 	
 }
 
@@ -80,7 +95,7 @@ void Game::update() {
 
 	for (Rigidbody2D* rb : rbPtrs) {
 		Vector2 diff = mouseToWorldPos - rb->getCollider()->getPosition();
-		rb->applyForce(diff.normalized() * 10);
+		rb->applyForce(diff.normalized() * 100);
 	}
 
 	Time::tickUpdate();
