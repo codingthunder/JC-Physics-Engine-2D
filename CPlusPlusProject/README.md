@@ -43,7 +43,8 @@ For the purposes of rendering, I used the simplest library I could find: SFML. S
 
 
 
-[Software Demo Video](https://youtu.be/cmqum40pnyY)
+[Devlog 1](https://youtu.be/cmqum40pnyY)
+[Devlog 2, MOST RECENT](https://youtu.be/q5J7m5Crb_g)
 
 # Development Environment
 
