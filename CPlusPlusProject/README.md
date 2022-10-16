@@ -1,8 +1,10 @@
 # Overview
 
-This project is a simplistic, unoptimized 2D physics engine. Unfortunately, I fell ill this past week, so I was unable to finish implementing some changes. The Engine is capable of simulating the interactions between Rigidbodies with Circular colliders. These Entities are presently displayed using the SFML rendering tool (link below). I used that same tool to track the mouse position and accelerate objects toward it.
+UPDATE: I'll likely be moving this .readme to the front page of the git and generally restructuring the project in general.
 
-There's more math in this program than I could reasonably cover in a README. However, I will try to cover the general points and provide resources at the bottom of the file. I think it is worth mentioning that I am neither a physicist nor a mathematician. Much of my implementation was done through intuition, spending several hours scrawling in a notebook and staring at desmos graphing calculator to figure out algorithms. I avoided getting help or using external libraries because I wanted to really understand what I was working with.
+This project is a simplistic, unoptimized 2D physics engine, still  being updated. The Engine is capable of simulating the interactions between Rigidbodies with Circular colliders. These Entities are presently displayed using the SFML rendering tool (link below). I used that same tool to track the mouse position and accelerate objects toward it.
+
+There's more math in this program than I could reasonably cover in a README. However, I will try to cover the general points and provide resources at the bottom of the file. I think it is worth mentioning that I am neither a physicist nor a mathematician. Much of my implementation was done through intuition, spending way too many hours scrawling in a notebook and staring at desmos graphing calculator to figure out algorithms. I avoided getting help or using external libraries because I wanted to really understand what I was working with.
 
 ## The Physics
 
@@ -30,11 +32,11 @@ A lot of the math behind my implementation was explained the the Physics section
 
 At present, the Physics engine calculates collisions by going down a list of tracked Colliders and checking if their bounds overlap. Just to get the Minimum Viable Product working, I used a nested for loop that has a time complexity of O(n^2^). Quite frankly, that is unacceptable and causes my engine to go incredibly slow. Your mileage will vary depending on your machine, obviously, but once I reached the upper hundreds, my system started to chug.
 
-The keen-eyed reader may notice the beginnings for implementing Binary Trees and QuadTrees. Unfortunately, I fell ill as I was starting those, so I haven't been able to finish them. However, I planned to use both types of trees in my program, though for different purposes.
+I've nearly finished implementing a Red-Black Binary Tree, and I intend to also use a Quadtree or Spatial Hashing. Unlike the Red-Black Binary Tree, I will likely implment somebody else's libraries for future data structures so that I can speed up development. I only wrote the first Tree just to be sure I could. Now that I have, I'm satisfied. On to better things.
 
-**Binary Trees** can be great for rapid lookup. They serve a similar purpose to Dictionaries and HashTables, but without the arbitrary hash function length. My plan was to make a basic Binary Tree, then extend it into a **Red-Black Binary Tree**, which while it isn't as fast at insertion, automatically balances itself in order to ensure rapid lookup. This would be useful any time I needed to grab an object by its ID.
+**Red-Black Binary Tree** is a great alternative to AVL trees or standard Binary Search Trees. I actually was able to write most of a Red-Black Tree already, but I haven't finished the delete function, and I haven't had a chance to actually use it in my code. For anything where I need to rapidly retrieve objects by ID, this will be great. I could've used a dictionary or any other number of items, but I'd never written a Red-Black Tree before, and it was a good exercise.
 
-**QuadTrees** are great for organizing elements spacially along 2 axes. Rather than a simple left-branch and right-branch, they have a branchNW, branchNE, branchSW, branchSE. When checking colliders against one another, you can walk the QuadTree to check which elements are close to one another. By organizing colliders according to space, you only have to check against a handful of other colliders for each element, as opposed to the whole list. When properly implemented, I believe the Time Complexity approaches O(n).
+**QuadTrees** are great for organizing elements spacially along 2 axes. Rather than a simple left-branch and right-branch, they have a branchNW, branchNE, branchSW, branchSE. When checking colliders against one another, you can walk the QuadTree to check which elements are close to one another. By organizing colliders according to space, you only have to check against a handful of other colliders for each element, as opposed to the whole list. When properly implemented, I believe the Time Complexity approaches O(1). (I originally wrote O(n), but that was when JC could barely see straight from COVID.)
 
 ## Rendering
 For the purposes of rendering, I used the simplest library I could find: SFML. SFML also handles basic input. In future updates, I would want to transition to using DirectX 3D. I would also want to make input more flexible.
@@ -58,5 +60,4 @@ I used Visual Studio Community Edition, 2022. I also used the external library S
 * [Introduction to Linear Algebra](https://math.mit.edu/~gs/linearalgebra/)
 * [Introduction to Trigonometry](https://www.skillsyouneed.com/num/trigonometry.html)
 * [Difference Between Force & Momentum](https://byjus.com/physics/difference-between-force-and-momentum/#:~:text=According%20to%20the%20second%20law,with%20the%20change%20in%20acceleration.)
-* [Me 2 Weeks Ago](https://media2.giphy.com/media/unQ3IJU2RG7DO/giphy.gif)
-* [Me Now](https://media4.giphy.com/media/KAvlM8rLYEXkLTMMM5/giphy.gif)
+* [A Great Resource For Understanding Red-Black Binary Trees](https://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/)

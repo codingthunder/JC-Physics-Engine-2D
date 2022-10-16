@@ -20,5 +20,4 @@ as I have been given a bit more freedom to choose how I structure my projects fo
 1. [Hello World](https://github.com/codingthunder/CSE310-FALL-2022/tree/master/HelloWorld)
 Simple Hello World designed to demonstrate I know how to use Git.
 2. [Physics Engine--WORK IN PROGRESS](https://github.com/codingthunder/CSE310-FALL-2022/tree/master/CPlusPlusProject)
-A simple 2D Physics Engine. I intend to optimize it and make it a bit more robust before turning it in, but it will run as it is. I intend to upload instructions
-on how to build and run it on a later date.
+A simple 2D Physics Engine. Working on this incrementally. Check out its readme for more information.
