@@ -3,9 +3,37 @@
 int Entity::eIDCounter = 0;
 
 Entity::Entity() {
-	eID = eIDCounter++;
+	eID = std::to_string(eIDCounter++);
 }
 
-int Entity::getEID() {
+std::string Entity::getEID() {
 	return eID;
+}
+
+bool Entity::operator==(Entity& other) {
+	int compValue = eID.compare(other.getEID());
+	if (compValue == 0) {
+		return true;
+	}
+	return false;
+}
+
+bool Entity::operator!=(Entity& other) {
+	return !(*this == other);
+}
+
+bool Entity::operator<(Entity& other) {
+	int compValue = eID.compare(other.getEID());
+	if (compValue < 0) {
+		return true;
+	}
+	return false;
+}
+
+bool Entity::operator>(Entity& other) {
+	int compValue = eID.compare(other.getEID());
+	if (compValue > 0) {
+		return true;
+	}
+	return false;
 }

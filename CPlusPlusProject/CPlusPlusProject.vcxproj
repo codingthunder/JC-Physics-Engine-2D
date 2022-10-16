@@ -133,7 +133,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DataNode.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Physics2D.cpp" />
@@ -141,7 +140,7 @@
     <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Time.cpp" />
-    <ClCompile Include="BinaryTree.cpp" />
+    <ClCompile Include="_BTimp.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataNode.h" />

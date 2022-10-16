@@ -1,11 +1,16 @@
 #pragma once
+#include <string>
 
 class Entity {
 private:
 	static int eIDCounter;
 
-	int eID;
+	std::string eID;
 public:
 	Entity();
-	int getEID();
+	std::string getEID();
+	bool operator ==(Entity& other);
+	bool operator !=(Entity& other);
+	bool operator <(Entity& other);
+	bool operator >(Entity& other);
 };

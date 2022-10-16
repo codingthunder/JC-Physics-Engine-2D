@@ -37,9 +37,11 @@ void Game::initialize() {
 	//	rbPtrs[i]->applyMomentum(Vector2(0, -1));
 
 	//}
-
-	for (int i = 0; i < 100; ++i) {
-		colliderPtrs.push_back(new CircleCollider(Vector2(i, i), 0.25));
+	int modifier = 1;
+	for (int i = 0; i < 50; ++i) {
+		modifier *= -1;
+		colliderPtrs.push_back(new CircleCollider(Vector2(i, i * modifier), 0.25));
+		colliderPtrs.push_back(new CircleCollider(Vector2(-i, i * modifier), 0.25));
 		rbPtrs.push_back(new Rigidbody2D(colliderPtrs[i]));
 
 		rbPtrs[i]->setMass(1);

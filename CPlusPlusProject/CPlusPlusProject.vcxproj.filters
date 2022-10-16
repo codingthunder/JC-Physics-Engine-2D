@@ -42,11 +42,8 @@
     <ClCompile Include="QuadTree.cpp">
       <Filter>Source Files\DataStructures</Filter>
     </ClCompile>
-    <ClCompile Include="BinaryTree.cpp">
-      <Filter>Source Files\DataStructures</Filter>
-    </ClCompile>
-    <ClCompile Include="DataNode.cpp">
-      <Filter>Source Files\DataStructures</Filter>
+    <ClCompile Include="_BTimp.hpp">
+      <Filter>Header Files\DataStructures</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,13 @@
 #pragma once
 #include "Entity.h"
+#include <iostream>
 #include <vector>
+#include "BinaryTree.h"
 
 
 //Consider using Spatial Hashing or Quad Trees
 //Consider using OpenGL, GLM, and DirectXMath
+//Remember: you can't remove from the BinaryTree yet.
 
 struct Vector2 {
 
@@ -20,10 +23,21 @@ struct Vector2 {
 	Vector2 normalized();
 
 	static float distance(Vector2 pos1, Vector2 pos2);
+	//The proportion argument is clamped between 0 and 1, inclusive.
+	static Vector2 lerp(Vector2 pos1, Vector2 pos2, float proportion);
 	Vector2 operator+(Vector2 otherVec);
 	Vector2 operator-(Vector2 otherVec);
 	Vector2 operator/(float otherVal);
 	Vector2 operator*(float otherVal);
+
+	friend std::ostream& operator<<(std::ostream& os, const Vector2& vec);
+
+private:
+
+	float _savedX;
+	float _magnitude = 0;
+	float _xNormalized = 0;
+	float _yNormalized = 0;
 };
 
 class CircleCollider : public Entity {
@@ -31,6 +45,7 @@ class CircleCollider : public Entity {
 private:
 	float radius;
 	Vector2 position;
+	std::vector<CircleCollider*> overlappedColliders = std::vector<CircleCollider*>();
 
 public:
 	CircleCollider() = default;
@@ -41,6 +56,7 @@ public:
 	float getArea();
 
 	void move(Vector2 offset);
+
 
 	static bool isCollided(CircleCollider* colA, CircleCollider* colB);
 
@@ -78,6 +94,7 @@ private:
 	void calculatePositions();
 	//My initial implementation for this will be super inefficient. I intend to optimize it once I've got the basics working.
 	void calculateCollisions();
+	static void negateOverlap(Rigidbody2D * rb1, Rigidbody2D * rb2);
 	static void collide(Rigidbody2D* rb1, Rigidbody2D* rb2);
 	static Vector2 calculateMomentumTransfer(Rigidbody2D* primaryRb, Rigidbody2D* otherRb);
 
