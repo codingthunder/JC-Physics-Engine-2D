@@ -24,6 +24,7 @@
     <ProjectGuid>{13aa4c0b-d0cc-42ce-a0c2-eaf7fc62cc58}</ProjectGuid>
     <RootNamespace>CPlusPlusProject</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -137,20 +138,15 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Physics2D.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Time.cpp" />
-    <ClCompile Include="_BTimp.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataNode.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Physics2D.h" />
-    <ClInclude Include="QuadTree.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="Time.h" />
-    <ClInclude Include="BinaryTree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
