@@ -2,12 +2,10 @@
 #include "Entity.h"
 #include <iostream>
 #include <vector>
-#include "BinaryTree.h"
 
 
 //Consider using Spatial Hashing or Quad Trees
 //Consider using OpenGL, GLM, and DirectXMath
-//Remember: you can't remove from the BinaryTree yet.
 
 struct Vector2 {
 
